@@ -1,0 +1,12 @@
+﻿global using AutoMapper;
+global using Demo.BLL.Interfaces;
+global using Demo.BLL.Repositories;
+global using Demo.DAL.Data;
+global using Demo.DAL.Models;
+global using Demo.PL.Utilities;
+global using Demo.PL.ViewModels;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;
+global using System.Reflection;
