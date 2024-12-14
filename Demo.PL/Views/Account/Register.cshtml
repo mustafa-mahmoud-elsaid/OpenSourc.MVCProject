@@ -4,41 +4,58 @@
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
-<div class="main-agileinfo">
-    <div class="agileits-top">
-        <form asp-action="Register" method="post">
-            <div asp-validation-summary="All"></div>
-            <input asp-for="FirstName" placeholder="FirstName" required="">
-            <span asp-validation-for="FirstName"></span>
-            <br />
-            <input asp-for="LastName" placeholder="Last Name" required="">
-            <span asp-validation-for="LastName"></span>
-            <br />
-            <input asp-for="UserName" placeholder="UserName" required="">
-            <span asp-validation-for="UserName"></span>
-            <br />
-            <input asp-for="Email" placeholder="Email" required="">
-            <span asp-validation-for="Email"></span>
-            <br />
-            <input asp-for="Password" placeholder="Password" required="">
-            <span asp-validation-for="Password"></span>
-            <br />     
-            <input asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
-            <span asp-validation-for="ConfirmPassword"></span>
-            <br />
+<section class="wrapper d-flex justify-content-center align-items-center min-vh-100 py-5">
+    <main class="container">
+        <h1 class="text-center">Sign Up</h1>
+        <form asp-action="Register" class="form" method="post">
 
-            <div class="wthree-text">
-                <label class="anim">
-                    <input asp-for="IsAgree" class="checkbox" required="">
-                    <span>I Agree To The Terms & Conditions</span>
-                </label>
-                <div class="clear"> </div>
+            <div class="form__group field">
+                <input id="firstName" name="@Html.DisplayNameFor(e=>e.FirstName)" type="text" class="form__field" placeholder="First Name" required>
+                <label for="firstName" class="form__label">First Name</label>
+                <span class="error" asp-validation-for="FirstName"></span>
             </div>
-            <input type="submit" value="SIGNUP">
+            <div class="form__group field">
+                <input id="lastName" name="@Html.DisplayNameFor(e=>e.LastName)" type="text" class="form__field" placeholder="Last Name" required>
+                <label for="lastName" class="form__label">Last Name</label>
+                <span class="error" asp-validation-for="LastName"></span>
+            </div>
+
+            <div class="form__group field">
+                <input id="aliasName" name="@Html.DisplayNameFor(e=>e.UserName)" type="text" class="form__field" placeholder="Alias Name" required>
+                <label for="aliasName" class="form__label">Alias Name</label>
+                <span class="error" asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="form__group field">
+                <input id="email" name="@Html.DisplayNameFor(e=>e.Email)" type="email" class="form__field" placeholder="Email" required>
+                <label for="email" class="form__label">Email</label>
+                <span class="error" asp-validation-for="Email"></span>
+            </div>
+
+            <div class="form__group field">
+                <input id="password" name="@Html.DisplayNameFor(e=>e.Password)" type="password" class="form__field" placeholder="Password" required>
+                <label for="password" class="form__label">Password</label>
+                <span class="error password" asp-validation-for="Password"></span>
+                <i id="togglePassword" role="button" aria-label="toggole password show" class="fa-regular fa-eye-slash"></i>
+            </div>
+
+            <div class="form__group field">
+                <input id="confirmPassword" name="@Html.DisplayNameFor(e=>e.ConfirmPassword)" type="password" class="form__field" placeholder="Confirm Password" required>
+                <label for="confirmPassword" class="form__label">Confirm Password</label>
+                <span class="error password" asp-validation-for="UserName"></span>
+            </div>
+            <div  class="d-flex align-items-center pt-3 flex-wrap">
+                <div asp-validation-summary="ModelOnly"></div>
+                @* <p class="error"> Error message</p> *@
+                <button class="button button--submit">Submit</button>
+            </div>
+
         </form>
-        <p>Don you have an Account? <a asp-action="Login"> Login Now!</a></p>
-    </div>
-</div>
+
+
+    </main>
+
+</section>
 
 @section Validation {
         <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

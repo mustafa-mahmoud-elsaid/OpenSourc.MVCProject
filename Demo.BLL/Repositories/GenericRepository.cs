@@ -19,7 +19,7 @@ namespace Demo.BLL.Repositories
         public async Task<TEntity?> GetAsync(int id) => await _dbSet.FindAsync(id);
 
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
+        public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.AsNoTracking().ToListAsync();
 
         public void Update(TEntity entity) => _dbSet.Update(entity);
     }

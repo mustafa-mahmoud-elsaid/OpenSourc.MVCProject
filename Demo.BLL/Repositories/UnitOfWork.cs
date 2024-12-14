@@ -19,6 +19,9 @@
         public IEmployeeRepository Employees => _employeeRepository.Value;
 
 
-        public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
+		public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
+
+		public async ValueTask DisposeAsync()=>await _context.DisposeAsync();
+        
     }
 }

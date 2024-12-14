@@ -3,9 +3,10 @@
 namespace Demo.PL.Controllers
 {
     public class AccountController
-        (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager , IMailSetting mailSetting)
         : Controller
     {
+        #region SignUp
         [HttpGet]
         public IActionResult Register()
         {
@@ -33,6 +34,9 @@ namespace Demo.PL.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Login
         public IActionResult Login()
         {
             return View();
@@ -48,7 +52,7 @@ namespace Demo.PL.Controllers
                 if (await userManager.CheckPasswordAsync(user, model.Password))
                 {
                     var result = await signInManager.
-                        PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                        PasswordSignInAsync(user, model.Password, true, false);
                     if (result.Succeeded) return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).ControllerName());
 
 
@@ -59,13 +63,17 @@ namespace Demo.PL.Controllers
 
 
         }
+        #endregion
 
+        #region SignOut
         public new async Task<IActionResult> SignOut()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
+        #endregion
 
+        #region ForgetPassword
         [HttpGet]
         public IActionResult ForgetPassword()
         {
@@ -83,24 +91,27 @@ namespace Demo.PL.Controllers
                 // Create Password Reset Token
                 var token = await userManager.GeneratePasswordResetTokenAsync(user);
                 // Create Password Reset URL 
-                var url = Url.Action(nameof(ResetPassword), nameof(AccountController).ControllerName(),
+                var passwordUrl = Url.Action(nameof(ResetPassword), nameof(AccountController).ControllerName(),
                     new { Email = user.Email, token = token }, Request.Scheme);
                 // Create Email Object 
                 var email = new Email
                 {
                     Subject = "Password Reset",
-                    Body = url,
+                    Body = passwordUrl!,
                     Recipient = user.Email!
                 };
 
                 //Send Email
-                MailSettings.SendEmail(email);
+                await mailSetting.SendEmailAsync(email);
                 return View("CheckYourInBox");
             }
             ModelState.AddModelError(string.Empty, "User Not Found");
 
             return View();
         }
+        #endregion
+
+        #region ResetPassword
         [HttpGet]
         public IActionResult ResetPassword(string email, string token)
         {
@@ -134,9 +145,8 @@ namespace Demo.PL.Controllers
             ModelState.AddModelError(string.Empty, "User Not Found");
 
             return View();
-        }
-
-
+        } 
+        #endregion
 
     }
 }

@@ -1,6 +1,9 @@
-﻿using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+﻿using MailKit.Net.Smtp;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using MimeKit;
 using System.Net;
-using System.Net.Mail;
 
 namespace Demo.PL.Utilities
 {
@@ -10,16 +13,44 @@ namespace Demo.PL.Utilities
         public string Body { get; set; } = null!;
         public string Recipient { get; set; } = null!;
     }
-    public static class MailSettings
+    public class Setting()
     {
-        public static void SendEmail(Email email)
+        public string Name { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string DisplayName { get; set; } = null!;
+        public string Host { get; set; } = null!;
+        public int Port { get; set; }
+
+    }
+    public interface IMailSetting
+    {
+        public Task SendEmailAsync(Email email);
+
+	}
+    public class MailSetting(IOptions<Setting> option):IMailSetting
+    {
+        public async Task SendEmailAsync(Email email)
         {
-            
-            var client = new SmtpClient("smtp.gmail.com", 587);
-            client.EnableSsl = true;
-            string sender = "mostafapro87@gmail.com";
-            client.Credentials = new NetworkCredential(sender, "axkywwsvstpeofcy");
-            client.Send(sender, email.Recipient, email.Subject, email.Body);
-        }
+
+            //var client = new SmtpClient("smtp.gmail.com", 587);
+            //client.EnableSsl = true;
+            //string sender = "mostafapro87@gmail.com";
+            //client.Credentials = new NetworkCredential(sender, "axkywwsvstpeofcy");
+            //client.Send(sender, email.Recipient, email.Subject, email.Body);
+            var messege = new MimeMessage();
+            messege.To.Add(MailboxAddress.Parse(email.Recipient));
+            messege.From.Add(new MailboxAddress(option.Value.DisplayName , option.Value.Email));
+            messege.Subject = email.Subject;
+            var builder = new BodyBuilder();
+            builder.TextBody = email.Body;
+            messege.Body = builder.ToMessageBody();
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(option.Value.Host , option.Value.Port , MailKit.Security.SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(option.Value.Email, option.Value.Password);
+            await smtp.SendAsync(messege);
+            smtp.Disconnect(true);
+		}
     }
 }

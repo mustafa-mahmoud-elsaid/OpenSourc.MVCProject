@@ -1,4 +1,5 @@
 using Demo.PL.Utilities;
+using MailKit;
 
 namespace Demo.PL
 {
@@ -38,6 +39,8 @@ namespace Demo.PL
 
 
             });
+            builder.Services.Configure<Setting>(builder.Configuration.GetSection("EmailSetting"));
+            builder.Services.AddTransient<IMailSetting , MailSetting>();   
 
             var app = builder.Build();
 

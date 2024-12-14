@@ -1,0 +1,76 @@
+﻿/* form  */
+.form {
+    max-width: 27rem;
+    background-color: white;
+    margin-inline: auto;
+    padding: 1.5rem 2rem;
+    border-radius: .5rem;
+}
+
+.form__group {
+    position: relative;
+    padding: 20px 0 0;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form__field {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+    .form__field::placeholder {
+        color: transparent;
+    }
+
+    .form__field:placeholder-shown ~ .form__label {
+        cursor: text;
+        top: 20px;
+    }
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #9b9b9b;
+    pointer-events: none;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #3D3D3D, #9b9b9b);
+    border-image-slice: 1;
+}
+
+    .form__field:focus ~ .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 17px;
+        color: #3D3D3D;
+        font-weight: 600;
+    }
+
+.forgotPassword:hover {
+    text-decoration: underline;
+}
+
+#togglePassword {
+    position: absolute;
+    top: 2rem;
+    right: 0;
+}
+
+.error {
+    color: rgb(166, 13, 13);
+}
