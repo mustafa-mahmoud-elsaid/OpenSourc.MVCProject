@@ -1,9 +1,11 @@
 ﻿@model EmployeeViewModel
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
 }
-
-<h1>Create new Employee</h1>
+<div class="mb-3 text-center">
+    <h1>Create a new Employee</h1>
+</div>
 
 
 <form method="post" asp-action="Create" enctype="multipart/form-data">

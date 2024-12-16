@@ -1,15 +1,8 @@
 ﻿@model IEnumerable<UserViewModel>
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
 }
-
-
-
-
-
-
-
 
 <div class="mt-2">
     <form asp-action="Index" method="get" class="row offset-2">
@@ -46,7 +39,7 @@
                 <td>@user.LastName</td>
                 <td>@user.UserName</td>
                 <td>@Html.DisplayFor(e => user.Email)</td>
-                <td>@string.Join(",", user.Roles)</td>
+                <td>@string.Join(",", user.Roles!)</td>
 
                 <partial name="_ButtonsPartial" Model="@user.Id"></partial>
 

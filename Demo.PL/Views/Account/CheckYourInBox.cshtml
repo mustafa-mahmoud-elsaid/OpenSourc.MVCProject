@@ -3,12 +3,29 @@
     ViewData["Title"] = "CheckYourInBox";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
-
-
-
-<div class="main-agileinfo">
+@* <div class="main-agileinfo">
     <div class="agileits-top">
         <p>Please Check Your InBox</p>
         <p> <a asp-action="Login">Login</a></p>
     </div>
-</div>
+</div> *@
+<section class="wrapper d-flex justify-content-center align-items-center vh-100">
+    <main class="container">
+        <h1 class="text-center">Reset Password</h1>
+        <form asp-action="ResetPassword" class="form" method="post">
+            <div class="error" asp-validation-summary="ModelOnly"></div>
+
+            <div class="form__group field">
+               
+                <p>Please Check Your Inbox</p>
+            </div>
+            <div class="d-flex align-items-center pt-3 flex-wrap">
+                <a href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox" class="forgotPassword">Go To Your Inbox.</a>
+            </div>
+
+        </form>
+
+
+    </main>
+
+</section>

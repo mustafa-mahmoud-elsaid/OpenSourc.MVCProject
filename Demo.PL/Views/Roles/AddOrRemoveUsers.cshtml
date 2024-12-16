@@ -1,7 +1,7 @@
 ﻿@model List<UserInRoleViewModel>
 @{
     ViewData["Title"] = "AddOrRemoveUsers";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
 }
 <h2>Add Or Remove Users</h2>
 <form class="my-3" asp-action="AddOrRemoveUsers" asp-route-roleId="@ViewBag.RoleId">

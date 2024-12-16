@@ -2,7 +2,7 @@
 
 namespace Demo.PL.Controllers
 {
-    [Authorize(Roles = "SuperAdmin")]
+   // [Authorize(Roles = "SuperAdmin")]
     public class UserController : Controller
     {
 
@@ -20,10 +20,10 @@ namespace Demo.PL.Controllers
                 var users = await _userManager.Users.Select(user => new UserViewModel
                 {
                     Id = user.Id,
-                    Email = user.Email,
+                    Email = user.Email!,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    UserName = user.UserName,
+                    UserName = user.UserName!,
                     Roles = _userManager.GetRolesAsync(user).GetAwaiter().GetResult(),
                 }).ToListAsync();
 
@@ -34,10 +34,10 @@ namespace Demo.PL.Controllers
             var model = new UserViewModel
             {
                 Id = user.Id,
-                Email = user.Email,
+                Email = user.Email!,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                UserName = user.UserName,
+                UserName = user.UserName!,
                 Roles = await _userManager.GetRolesAsync(user)
             };
 
@@ -52,10 +52,10 @@ namespace Demo.PL.Controllers
             var model = new UserViewModel
             {
                 Id = user.Id,
-                Email = user.Email,
+                Email = user.Email!,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                UserName = user.UserName,
+                UserName = user.UserName!,
             };
 
             return View(ViewName, model);
@@ -102,10 +102,10 @@ namespace Demo.PL.Controllers
             var model = new UserViewModel
             {
                 Id = user.Id,
-                Email = user.Email,
+                Email = user.Email!,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                UserName = user.UserName,
+                UserName = user.UserName!,
             };
             return View(model);
         }

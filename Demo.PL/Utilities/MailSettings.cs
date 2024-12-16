@@ -32,12 +32,6 @@ namespace Demo.PL.Utilities
     {
         public async Task SendEmailAsync(Email email)
         {
-
-            //var client = new SmtpClient("smtp.gmail.com", 587);
-            //client.EnableSsl = true;
-            //string sender = "mostafapro87@gmail.com";
-            //client.Credentials = new NetworkCredential(sender, "axkywwsvstpeofcy");
-            //client.Send(sender, email.Recipient, email.Subject, email.Body);
             var messege = new MimeMessage();
             messege.To.Add(MailboxAddress.Parse(email.Recipient));
             messege.From.Add(new MailboxAddress(option.Value.DisplayName , option.Value.Email));

@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Demo.PL.Controllers
 {
-    [Authorize(Roles = "SuperAdmin")]
+    //[Authorize(Roles = "SuperAdmin")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -35,7 +35,7 @@ namespace Demo.PL.Controllers
                 var roles = await _roleManager.Roles.Select(role => new RoleViewModel
                 {
                     Id = role.Id,
-                    Name = role.Name
+                    Name = role.Name!
                 }).ToListAsync();
 
                 return View(roles);
@@ -45,7 +45,7 @@ namespace Demo.PL.Controllers
             var model = new RoleViewModel
             {
                 Id = role.Id,
-                Name = role.Name
+                Name = role.Name!
             };
 
             return View(new List<RoleViewModel> { model });
@@ -59,7 +59,7 @@ namespace Demo.PL.Controllers
             var model = new RoleViewModel
             {
                 Id = role.Id,
-                Name = role.Name
+                Name = role.Name!
             };
 
             return View(ViewName, model);
@@ -71,7 +71,7 @@ namespace Demo.PL.Controllers
             if (id != model.Id) return BadRequest();
             if (ModelState.IsValid)
             {
-                var role = await _roleManager.FindByIdAsync(model.Id);
+                var role = await _roleManager.FindByIdAsync(model.Id!);
                 if (role is null) return NotFound();
                 role.Name = model.Name;
                 var result = await _roleManager.UpdateAsync(role);
@@ -105,7 +105,7 @@ namespace Demo.PL.Controllers
             var model = new RoleViewModel
             {
                 Id = role.Id,
-                Name = role.Name
+                Name = role.Name!
             };
             return View(model);
         }
@@ -117,9 +117,9 @@ namespace Demo.PL.Controllers
             ViewBag.RoleId = role.Id;
             var users = await _userManager.Users.Select(user => new UserInRoleViewModel
             {
-                Name = user.UserName,
+                Name = user.UserName!,
                 UserId = user.Id,
-                IsInRole = _userManager.IsInRoleAsync(user, role.Name).GetAwaiter().GetResult()
+                IsInRole = _userManager.IsInRoleAsync(user, role.Name!).GetAwaiter().GetResult()
             }).ToListAsync();
             return View(users);
         }
@@ -136,10 +136,10 @@ namespace Demo.PL.Controllers
                 {
                     var appUser = await _userManager.FindByIdAsync(user.UserId);
                     if (appUser is null) continue;
-                    if (user.IsInRole && !await _userManager.IsInRoleAsync(appUser, role.Name))
-                        await _userManager.AddToRoleAsync(appUser, role.Name);
-                    if (!user.IsInRole && await _userManager.IsInRoleAsync(appUser, role.Name))
-                        await _userManager.RemoveFromRoleAsync(appUser, role.Name);
+                    if (user.IsInRole && !await _userManager.IsInRoleAsync(appUser, role.Name!))
+                        await _userManager.AddToRoleAsync(appUser, role.Name!);
+                    if (!user.IsInRole && await _userManager.IsInRoleAsync(appUser, role.Name!))
+                        await _userManager.RemoveFromRoleAsync(appUser, role.Name!);
 
                 }
                 return RedirectToAction(nameof(Edit), new { id = role.Id });
